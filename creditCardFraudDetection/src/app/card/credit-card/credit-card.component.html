@@ -1,1 +1,50 @@
-<p>credit-card works!</p>
+<div class="page">
+  <div class="card">
+    <h2>Credit Card Fraud Detection</h2>
+
+    <input [(ngModel)]="cardNumber" placeholder="Enter card number" />
+    <input [(ngModel)]="amount" type="number" placeholder="Enter amount" />
+    <input [(ngModel)]="country" placeholder="Enter country" />
+
+    <button (click)="validateCard()">Check Card</button>
+    <button class="secondary" (click)="clearAll()">Clear Transactions</button>
+
+    <div *ngIf="result" class="result" [ngClass]="{ ok: !result.fraud, bad: result.fraud }">
+      <p><strong>Valid:</strong> {{ result.valid }}</p>
+      <p><strong>Type:</strong> {{ result.type }}</p>
+      <p><strong>Fraud Suspected:</strong> {{ result.fraud }}</p>
+
+      <div *ngIf="result.fraud_reasons?.length">
+        <p><strong>Reasons:</strong></p>
+        <ul>
+          <li *ngFor="let reason of result.fraud_reasons">{{ reason }}</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="history" *ngIf="history?.length">
+      <h3>Recent Transactions</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Card</th>
+            <th>Amount</th>
+            <th>Country</th>
+            <th>Time</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let tx of history">
+            <td>{{ tx.cardNumber }}</td>
+            <td>{{ tx.amount }}</td>
+            <td>{{ tx.country }}</td>
+            <td>{{ tx.timestamp | date:'medium' }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+
+
